@@ -1,0 +1,95 @@
+{% extends 'nav.html' %}
+
+{% block title %}
+Contact Us
+{% endblock title %}
+{% block style %}
+<style>
+.btn{
+  font-family: "Raleway", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 1px;
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  transition: 0.5s;
+  color: #3498db;
+  border: 2px solid #3498db;
+}
+.btn:hover{
+  background-color:black;
+  color:white;
+}
+</style>
+{% endblock style %}
+
+{% block body %}
+ <br>
+ <br>
+ <br>
+ 
+<h1 class="text-center">Contact Us</h1>
+<div class="container mt-2">
+
+  {% for  message in messages  %}
+  <div class="alert alert-{{messages.tags}} alert-dismissible fade show" role="alert">
+    <strong></strong> {{message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endfor %}
+
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+
+      <!-- ======= signup form ======= -->
+      <form action="/contact" method="post">
+        {% csrf_token %}
+
+        <br>
+
+        <div class="form-group">
+          <label for="name" class="form-label">Full Name</label>
+          <br>
+          <input type="text" class="form-control p-2" id="name" name="name" required/>
+        </div>
+
+        <br>
+
+        <div class="form-group">
+          <label for="email" class="form-label">Email address</label>
+          <br>
+          <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+
+        <br>
+
+        <div class="form-group">
+          <label for="password" class="form-label">How Can I Help You?</label>
+          <textarea type="text" class="form-control p-2" id="desc" name="desc" required></textarea>
+        </div>
+
+        <br>
+
+        <div class="form-group">
+          <label for="pnumber" class="form-label">Phone Number</label>
+          <input type="number" class="form-control p-2" id="pnumber" name="pnumber" required/>
+        </div>
+
+        <br>
+       
+
+        <!-- ======= Signup button ======= -->
+        <button type="submit" class="btn">Submit</button>
+
+      </form>
+
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+
+</div>
+</section>
+
+{% endblock body %}
