@@ -1,6 +1,14 @@
 # created by virtualenv automatically
+<<<<<<< HEAD
 .venv/
 lib/
 Scripts/
 static/
 scripts/
+=======
+*.venv/ 
+ lib/ 
+ scripts/ 
+ static/
+ Scripts/
+>>>>>>> a1cfe3135fb2b4a09571e81750125c86d237723d

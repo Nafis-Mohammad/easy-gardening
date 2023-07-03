@@ -13,6 +13,10 @@ import os
 from django.contrib.messages import constants as messages
 from pathlib import Path
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> a1cfe3135fb2b4a09571e81750125c86d237723d
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -42,6 +46,11 @@ INSTALLED_APPS = [
     'plantapp',
     'authen',
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> a1cfe3135fb2b4a09571e81750125c86d237723d
 ]
 
 MIDDLEWARE = [
