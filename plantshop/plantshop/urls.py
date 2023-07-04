@@ -15,29 +15,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-<<<<<<< HEAD
-from django.urls import path,include
-=======
 from django.urls import path, include
->>>>>>> a1cfe3135fb2b4a09571e81750125c86d237723d
 from django.conf.urls.static import static
 from django.conf import settings
 
 
-<<<<<<< HEAD
-admin.site.site_header ="Easy Gardening"
-admin.site.site_title="Ifraj Admin"
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    #adding path
-    
-    path('',include('plantapp.urls')),
-    path('authen/', include(('authen.urls','authen'), namespace='authen')),
-
-    
-] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
-=======
 admin.site.site_header = "Easy Gardening"
 admin.site.site_title = "Ifraj Admin"
 
@@ -52,4 +34,3 @@ urlpatterns = [
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
->>>>>>> a1cfe3135fb2b4a09571e81750125c86d237723d

@@ -1,17 +1,6 @@
 from django.urls import path
 from plantapp import views
-<<<<<<< HEAD
 
-urlpatterns = [
-    #jump to views 
-    path('',views.home,name='home'),
-    path('contact',views.contact,name='contact'),    
-    path('product',views.product,name='product'),    
-
-  
-]
-=======
-from .models import Cart
 from .views import carts, store, checkout
 
 
@@ -20,10 +9,8 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('contact', views.contact, name='contact'),
     path('product', views.product, name='product'),
-    path('cart/', Cart, name="cart"),
-    path('carts', carts, name="carts"),
-    path('store', store, name="store"),
-    path('checkout', checkout, name="checkout")
-
+    path('carts', views.carts, name="carts"),
+    path('store', views.store, name="store"),
+    path('checkout', views.checkout, name="checkout"),
+    path('update_items/', views.updateItem, name="update_items"),
 ]
->>>>>>> a1cfe3135fb2b4a09571e81750125c86d237723d

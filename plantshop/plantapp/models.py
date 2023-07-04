@@ -1,39 +1,9 @@
 from django.db import models
-<<<<<<< HEAD
-
-# Create your models here.
-#create product table
-class Product(models.Model):
-    product_id = models.AutoField
-    product_name= models.CharField(max_length=50)
-    category= models.CharField(max_length=50,default="")
-    subcategory= models.CharField(max_length=50,default="")
-    price= models.IntegerField(default=0)
-    desc= models.CharField(max_length=300)
-    pub_date=models.DateField()
-
-    image= models.ImageField(upload_to='shop/images',default="")
-
-
-
-
-
-
-
-    def __str__(self):
-        return self.product_name
-#database for contact page
-=======
 from django.contrib.auth.models import User
 
 
 # Create your models here.
 # create product table
-
-
-class BaseModel(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateField(auto_now=True)
 
 
 class Profile(models.Model):
@@ -53,42 +23,92 @@ class Product(models.Model):
     price = models.IntegerField(default=0)
     desc = models.CharField(max_length=300)
     pub_date = models.DateField()
-
+    digital = models.BooleanField(default=False, null=True, blank=True)
     image = models.ImageField(upload_to='shop/images', default="")
 
     def __str__(self):
         return self.product_name
 
-
-class Cart(BaseModel):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    is_paid = models.BooleanField(default=False)
-
-
-class CartItems(BaseModel):
-    cart_item = models.ForeignKey(
-        Cart, on_delete=models.CASCADE, related_name='items')
-    product_name = models.ForeignKey(
-        Product, on_delete=models.SET_NULL, null=True, blank=True)
+    @property
+    def imageURL(self):
+        try:
+            url = self.image.url
+        except:
+            url = ''
+        return url
 
 
 # database for contact page
->>>>>>> a1cfe3135fb2b4a09571e81750125c86d237723d
 
 class Contact(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
     desc = models.TextField()
-<<<<<<< HEAD
-    pnum = models.CharField(default=0,max_length=20)  # Assuming 'number' is a character field
-
-
-    def __str__(self):
-        return self.name
-=======
     # Assuming 'number' is a character field
     pnum = models.CharField(default=0, max_length=20)
 
     def __str__(self):
         return self.name
->>>>>>> a1cfe3135fb2b4a09571e81750125c86d237723d
+
+
+class Customer(models.Model):
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, null=True, blank=True)
+    name = models.CharField(max_length=200, null=True)
+    email = models.CharField(max_length=200, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Order(models.Model):
+    customer = models.ForeignKey(
+        Customer, on_delete=models.SET_NULL, blank=True, null=True)
+    date_ordered = models.DateTimeField(auto_now_add=True)
+    complete = models.BooleanField(default=False, null=True, blank=False)
+    transaction_id = models.CharField(max_length=200, null=True)
+
+    def __str__(self):
+        return str(self.transaction_id)
+
+    @property
+    def get_cart_total(self):
+        orderitems = self.orderitem_set.all()
+        total = sum([item.get_total for item in orderitems])
+        return total
+    
+    @property
+    def get_cart_items(self):
+        ordertimes = self.orderitem_set.all()
+        total = sum([item.quantity for item in ordertimes])
+        return total
+    
+
+
+class OrderItem(models.Model):
+    product = models.ForeignKey(
+        Product, on_delete=models.SET_NULL, blank=True, null=True)
+    order = models.ForeignKey(
+        Order, on_delete=models.SET_NULL, blank=True, null=True)
+    quantity = models.IntegerField(default=0, null=True, blank=True)
+    date_ordered = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def get_total(self):
+        total = self.product.price * self.quantity
+        return total
+
+
+class ShippingAddress(models.Model):
+    customer = models.ForeignKey(
+        Customer, on_delete=models.SET_NULL, blank=True, null=True)
+    order = models.ForeignKey(
+        Order, on_delete=models.SET_NULL, blank=True, null=True)
+    address = models.CharField(max_length=200, null=False)
+    city = models.CharField(max_length=200, null=False)
+    zipcode = models.CharField(max_length=200, null=False)
+    state = models.CharField(max_length=200, null=False)
+    date_ordered = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.address
