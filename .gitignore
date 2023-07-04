@@ -1,7 +1,5 @@
 # created by virtualenv automatically
-.venv/
-lib/
-Scripts/
-static/
-scripts/
-
+*.venv/ 
+ lib/ 
+ scripts/ 
+ static/
