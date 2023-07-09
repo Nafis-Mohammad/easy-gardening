@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login,logout
 from django.urls import reverse
+from plantapp.models import Customer
 
 
 
@@ -28,8 +29,10 @@ def signup(request):
 
         # Check for error inputs
         user = User.objects.create_user(email, email, password)
+        Customer.objects.create(user=user, name=user.username, email=user.email)
         user.save()
         messages.info(request, 'Thanks for signing up!')
+        
         return redirect(reverse('authen:handlelogin'))
 
     return render(request, 'auths/signup.html')
