@@ -1,0 +1,45 @@
+{% extends 'nav.html' %} {% load static %} {% block content %}
+
+<br>
+<br>
+<br>
+<br>
+
+<div class="row">
+    <h1>{{category_name.category_name}}</h1>
+    <hr>
+    {% for product in products %}
+    <div class="col-lg-4 mb-4 mr-4">
+      <!-- Added 'mb-4' class for margin bottom and 'mr-4' class for margin right -->
+      <div class="card">
+        <img
+          class="card-img-top"
+          src="{{ product.imageURL }}"
+          alt="{{ product.name }}"
+        />
+        <div class="card-body">
+          <h6 class="card-title">{{ product.name }}</h6>
+          <p class="card-text">Category: {{ product.category }}</p>
+          <p class="card-text">Subcategory: {{ product.subcategory }}</p>
+          <p class="card-text">{{ product.desc|slice:"0:25" }}...</p>
+          <hr />
+  
+          <button
+            data-product="{{ product.id }}"
+            data-action="add"
+            class="btn btn-outline-secondary add-btn update-cart"
+          >
+            Add to Cart
+          </button>
+          <a class="btn btn-outline-success" href="#">View</a>
+          <h4 class="card-price">
+            <strong>Tk{{ product.price|floatformat:2 }}</strong>
+          </h4>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+
+{% endblock content %}

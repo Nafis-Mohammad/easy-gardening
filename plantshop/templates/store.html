@@ -1,22 +1,64 @@
 {% extends 'nav.html' %} {% load static %} {% block content %}
-<br>
-<br>
-<br>
-<br>
+<br />
+<br />
+<br />
+<br />
+<div class="container">
+  <div class="row">
+      <div class="col-md-12">
+          <h1>Browse by Category</h1>
+          <hr>
+          <div class="row">
+              {% for item in category %}
+              <div class="cold-md-3">
+                  <div class="card">
+                      <div class="card-body">
+                          <div class = "category-image">
+                              <img src="{{item.imageURL}}" alt="Category image" class="w-100" />
+                          </div>
+                          <h4 class="text-center"> {{item.name}} </h4>
+                      </div>
+                  </div>
+              </div>
+              {% endfor %}
+          </div>
+      </div>
+
+  </div>
+
+</div>>
 
 <div class="row">
+  <h1>Or Browse All Available Plants</h1>
+  <hr>
   {% for product in products %}
-  <div class="col-lg-4">
-    <img class="thumbnail" src="{{product.imageURL}}" width="500" height="300" />
-    <div class="box-element product">
-      <h6><strong>{{ product.name }}</strong></h6>
-      <hr />
+  <div class="col-lg-4 mb-4 mr-4">
+    <!-- Added 'mb-4' class for margin bottom and 'mr-4' class for margin right -->
+    <div class="card">
+      <img
+        class="card-img-top"
+        src="{{ product.imageURL }}"
+        alt="{{ product.name }}"
+      />
+      <div class="card-body">
+        <h6 class="card-title">{{ product.name }}</h6>
+        <p class="card-text">Category: {{ product.category }}</p>
+        <p class="card-text">Subcategory: {{ product.subcategory }}</p>
+        <p class="card-text">{{ product.desc|slice:"0:25" }}...</p>
+        <hr />
 
-      <button data-product={{product.id}} data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
-      <a class="btn btn-outline-success" href="#">View</a>
-      <h4 style="display: inline-block; float: right">
-        <strong>${{ product.price|floatformat:2 }}</strong>
-      </h4>
+        <button
+          data-product="{{ product.id }}"
+          data-action="add"
+          class="btn btn-outline-secondary add-btn update-cart"
+        >
+          Add to Cart
+        </button>
+        <a class="btn btn-outline-success" href="#">View</a>
+        <h4 class="card-price">
+          <strong>Tk{{ product.price|floatformat:2 }}</strong>
+        </h4>
+      </div>
     </div>
   </div>
   {% endfor %}

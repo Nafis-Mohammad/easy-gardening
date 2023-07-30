@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Easy Gardening{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+
+    <!-- Add your custom CSS files here, or use static files -->
+  </head>
+  <body>
+    <!-- Add your header content here -->
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Easy Gardening</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <!-- Add more navigation links here -->
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main content area -->
+    <main class="container mt-4">
+      {% block content %}
+      <!-- Default content if no block content is provided -->
+      <h1>Welcome to Easy Gardening</h1>
+      {% endblock %}
+    </main>
+
+    <!-- Add your footer content here -->
+    <footer class="bg-light p-3 mt-4">
+      <div class="container text-center">
+        <p>&copy; {% now "Y" %} Easy Gardening. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <!-- Add your custom JS scripts here, or use static files -->
+  </body>
+</html>

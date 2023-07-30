@@ -49,25 +49,26 @@
       rel="stylesheet"
     />
 
-    <script type = "text/javascript">
-      var user = '{{request.user}}'
+    <script type="text/javascript">
+      var user = "{{request.user}}";
 
       function getToken(name) {
         var cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-          var cookies = document.cookie.split(';');
+        if (document.cookie && document.cookie !== "") {
+          var cookies = document.cookie.split(";");
           for (var i = 0; i < cookies.length; i++) {
             var cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            if (cookie.substring(0, name.length + 1) === name + "=") {
+              cookieValue = decodeURIComponent(
+                cookie.substring(name.length + 1)
+              );
               break;
             }
           }
         }
         return cookieValue;
       }
-      var csrftoken = getToken('csrftoken');
-
+      var csrftoken = getToken("csrftoken");
     </script>
 
     <!-- Template Main CSS File -->
@@ -84,7 +85,7 @@
 
   <body>
     <!-- ======= Header ======= -->
-    <header id="header" class="fixed-top d-flex align-items-center ">
+    <header id="header" class="fixed-top d-flex align-items-center">
       <div class="container d-flex align-items-center justify-content-between">
         <div class="logo">
           <h1><a href="index.html">Easy Gardening</a></h1>
@@ -97,23 +98,30 @@
             <li><a class="nav-link scrollto active" href="/">Home</a></li>
 
             <li><a class="nav-link scrollto" href="/contact">Contact</a></li>
-            <li><a class="nav-link scrollto" href="/store">Store</a></li>
+            <li><a class="nav-link scrollto" href="/collection">Store</a></li>
+            <li><a class="nav-link scrollto" href="/profile">Profile</a></li>
             <li><a class="nav-link scrollto" href="/checkout">Checkout</a></li>
-            <li><a class="nav-link scrollto" href="/carts">Carts</a></li>
-            <button
-              type="button"
-              class="btn btn-danger"
-              id="popcart"
-              data-container="body"
-              data-toggle="popover"
-              data-placement="bottom"
-              data-html="true"
-              data-content="Vivamus
-          sagittis lacus vel augue laoreet rutrum faucibus."
-            >
-              Cart(<span id="cart">{{cartItems}}</span>)
-            </button>
+            <li></li>
+            <li>
+              <a class="nav-link scrollto" href="/carts">
+                <img
+                  src="{% static 'assets/img/plant/cart.jpg' %}"
+                  style="width: 40px; height: 40px"
+                  alt="Cart"
+                />
+                (<span id="cart">{{cartItems}}</span>)
+                <span
+                  id="popcart"
+                  data-container="body"
+                  data-toggle="popover"
+                  data-placement="bottom"
+                  data-html="true"
+                  data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
+                ></span>
+              </a>
+            </li>
           </ul>
+
           <i class="bi bi-list mobile-nav-toggle"></i>
         </nav>
         <!-- .navbar -->
@@ -122,10 +130,7 @@
     <!-- End Header -->
 
     <!-- ======= Main Content ======= -->
-    <div class="container">
-      {% block content %}
-      {% endblock content %}
-    </div>
+    <div class="container">{% block content %} {% endblock content %}</div>
     <!-- End #main -->
 
     <!-- ======= Footer ======= -->
@@ -175,6 +180,7 @@
     <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
     <!-- Template Main JS File -->
     <script src="{% static 'assets/js/main.js' %}"></script>
+
     {% block script %} {% endblock script %}
   </body>
 </html>

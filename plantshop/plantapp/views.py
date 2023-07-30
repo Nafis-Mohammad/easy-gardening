@@ -9,13 +9,31 @@ from .models import *
 from .models import Order, OrderItem, User, Customer
 from django.http import JsonResponse
 import json
-
+import datetime
+from .models import Order, ShippingAddress
 
 # Create your views here.
 
 
 def home(request):
     return render(request, 'index.html')
+
+
+def collection(request):
+    category = Category.objects.all()
+    context = {'category': category}
+    print(context)
+    return render(request, "collection.html", context)
+
+def collectionview(request, id):
+    if(Category.objects.filter(id=id)):
+        products = Product.objects.filter(category=id)
+        name = Category.objects.filter(id = id).first()
+        context = {'products': products, 'name': name}
+        return render(request, "category.html", context)
+    else:
+        messages.warning(request, "No such category found")
+        return redirect("collection")
 
 
 def product(request):
@@ -65,18 +83,20 @@ def add_to_cart(request, slug):
 def store(request):
     if request.user.is_authenticated:
         customer = request.user.customer
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        order, created = Order.objects.get_or_create(
+            customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
     else:
         items = []
-        order = {'get_cart_total': 0, 'get_cart_items': 0}
+        order = {'get_cart_total': 0, 'get_cart_items': 0, 'shipping': False}
         cartItems = order['get_cart_items']
     products = Product.objects.all()
     context = {
         'products': products,
         'cartItems': cartItems
     }
+    
     return render(request, 'store.html', context)
 
 
@@ -93,7 +113,8 @@ def carts(request):
         order = {'get_cart_total': 0, 'get_cart_items': 0}
         cartItems = order['get_cart_items']
 
-    context = {'order': order, 'items': items, 'cartItems': cartItems}
+    context = {'order': order, 'items': items,
+               'cartItems': cartItems, 'shipping': False}
     return render(request, 'carts.html', context)
 
 
@@ -117,8 +138,10 @@ def checkout(request):
         # Redirect to a success page after completing the order
         return redirect('order-success')
 
-    context = {'items': items, 'order': order, 'cartItems': cartItems}
+    context = {'items': items, 'order': order,
+               'cartItems': cartItems, 'shipping': False}
     return render(request, 'checkout.html', context)
+
 
 def updateItem(request):
     data = json.loads(request.body)
@@ -129,8 +152,10 @@ def updateItem(request):
 
     customer = request.user.customer
     product = Product.objects.get(id=productId)
-    order, created = Order.objects.get_or_create(customer = customer, complete = False)
-    orderItem, created = OrderItem.objects.get_or_create(order = order, product = product)
+    order, created = Order.objects.get_or_create(
+        customer=customer, complete=False)
+    orderItem, created = OrderItem.objects.get_or_create(
+        order=order, product=product)
 
     if action == "add":
         orderItem.quantity = (orderItem.quantity + 1)
@@ -143,3 +168,36 @@ def updateItem(request):
         orderItem.delete()
 
     return JsonResponse("Item was added", safe=False)
+
+
+def processOrder(request):
+    transaction_id = datetime.datetime.now().timestamp
+    data = json.loads(request.body)  # Corrected 'bdoy' to 'body'
+
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(
+            customer=customer, complete=False)
+        total = float(data['form']['total'])
+        order.transaction_id = transaction_id
+
+        if total == order.get_cart_total():  # Corrected method call, added parentheses
+            order.complete = True
+        order.save()
+
+        if order.shipping:
+            ShippingAddress.objects.create(
+                customer=customer,
+                order=order,
+                address=data['shipping']['address'],
+                city=data['shipping']['city'],  # Corrected 'address' to 'city'
+                # Corrected 'address' to 'state'
+                state=data['shipping']['state'],
+                # Corrected 'address' to 'zipcode'
+                zipcode=data['shipping']['zipcode'],
+            )
+
+    else:
+        print("User is not logged in..")
+
+    return JsonResponse("Payment complete", safe=False)

@@ -1,0 +1,29 @@
+{% extends 'nav.html' %} {% load static %} {% block content %}
+
+<br>
+<br>
+<br>
+<br>
+
+<div class="row">
+    <h1>Categories</h1>
+    <hr>
+    {% for item in category %}
+    <div class="col-lg-4 mb-4 mr-4">
+      <!-- Added 'mb-4' class for margin bottom and 'mr-4' class for margin right -->
+      <div class="card">
+        <a href = "{% url 'collectionview' item.id %}">
+            <img class="card-img-top" src="{{ item.imageURL }}" alt="{{ item.category_name }}" />
+            <div class="card-body">
+                <h6 class="card-title">Category: {{ item.category_name }}</h6>
+                <p class="card-text">Description: {{ item.category_description }}</p>
+            <hr />
+            </div>
+        </a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+
+{% endblock content %}

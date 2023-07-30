@@ -29,6 +29,10 @@
   <!-- Template Main CSS File -->
   <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
 
+  <script src="{% static 'path/to/purecounter.js' %}"></script>
+  <script src="{% static 'path/to/main.js' %}"></script>
+
+
   <!-- =======================================================
   * Template Name: Vesperr
   * Updated: May 30 2023 with Bootstrap v5.3.0
@@ -55,22 +59,17 @@
           
           
           <li><a class="nav-link scrollto" href="/contact">Contact</a></li>
-          <li><a class="nav-link scrollto" href="/store">Store</a></li>
-          <li><a class="nav-link scrollto" href="/checkout">Checkout</a></li>
-          <li><a class="nav-link scrollto" href="/carts">Carts</a></li>
-
-
-          <button type="button" class="btn btn-danger " id="popcart" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" data-content="Vivamus
-          sagittis lacus vel augue laoreet rutrum faucibus.">
-           Cart(<span id="cart">0</span>)
-          </button>
-
-          
-
-
-
-
-
+          <li><a class="nav-link scrollto" href="/collection">Store</a></li>
+           <li><a class="nav-link scrollto" href="/checkout">Checkout</a></li>
+            <li>
+              <li>
+                <a class="nav-link scrollto" href="/carts">
+                  <img src="{% static 'assets/img/plant/cart.jpg' %}" style="width: 40px; height: 40px;" alt="Cart">
+                  (<span id="cart">{{cartItems}}</span>)
+                  <span id="popcart" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."></span>
+                </a>
+              </li>
+            </li>
 
           {% if request.user.is_authenticated %}
           <li><a class="nav-link scrollto" href="/authen/logout/">Logout</a></li>
