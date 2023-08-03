@@ -6,9 +6,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
 from .forms import ProfileForm
 from plantapp.models import Customer
+
+from .forms import WishForm
 
 
 def signup(request):
@@ -32,7 +33,8 @@ def signup(request):
 
         # Check for error inputs
         user = User.objects.create_user(email, email, password)
-        customer = Customer.objects.create(user=user, name=user.username, email=user.email)
+        customer = Customer.objects.create(
+            user=user, name=user.username, email=user.email)
         customer.save()
         user.save()
         messages.info(request, 'Thanks for signing up!')
@@ -78,3 +80,7 @@ def profile(request):
         form = ProfileForm(instance=profile)
 
     return render(request, 'profile.html', {'form': form})
+
+#---------------------------------Views---------------------------------#
+
+

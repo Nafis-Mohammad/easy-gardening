@@ -1,8 +1,6 @@
 from django.urls import path
 from plantapp import views
 
-from .views import carts, store, checkout, processOrder
-
 
 urlpatterns = [
     # jump to views
@@ -12,8 +10,14 @@ urlpatterns = [
     path('carts', views.carts, name="carts"),
     path('store', views.store, name="store"),
     path('collection', views.collection, name="collection"),
+    path('maintenance/<str:id>', views.collectionviewmaint, name="collectionviewmaint"),
     path('collection/<str:id>', views.collectionview, name="collectionview"),
+    path('WishList', views.WishList, name='WishList'),
+    path('CreateWish', views.CreateWish, name='CreateWish'),
+    path('UpdateWish', views.UpdateWish, name='UpdateWish'),
+    path('delete/<int:id>', views.DeleteWish, name='DeleteWish'),
     path('checkout', views.checkout, name="checkout"),
     path('update_items/', views.updateItem, name="update_items"),
     path('process_order/', views.processOrder, name="process_order"),
+
 ]

@@ -96,12 +96,22 @@
         <nav id="navbar" class="navbar">
           <ul>
             <li><a class="nav-link scrollto active" href="/">Home</a></li>
-
             <li><a class="nav-link scrollto" href="/contact">Contact</a></li>
             <li><a class="nav-link scrollto" href="/collection">Store</a></li>
             <li><a class="nav-link scrollto" href="/profile">Profile</a></li>
+            <li><a class="nav-link scrollto" href="/WishList">Wishes</a></li>
+            <li>
+              <a class="nav-link scrollto" href="/CreateWish">CreateWishList</a>
+            </li>
+            <li>
+              <a class="nav-link scrollto" href="/UpdateWish">UpdateWishList</a>
+            </li>
+            <li>
+              <a class="nav-link scrollto" href="/DeleteWish">DeleteWishList</a>
+            </li>
+
             <li><a class="nav-link scrollto" href="/checkout">Checkout</a></li>
-            <li></li>
+            <li>
             <li>
               <a class="nav-link scrollto" href="/carts">
                 <img
@@ -120,6 +130,13 @@
                 ></span>
               </a>
             </li>
+            </li>
+            {% if request.user.is_authenticated %}
+            <li><a class="nav-link scrollto" href="/authen/logout/">Logout</a></li>
+            <li><a class="getstarted scrollto">Welcome {{request.user.username}}</a></li>
+            {% else %}
+            <li><a class="nav-link scrollto" href="/authen/signup/">Signup</a></li>
+            {% endif %}
           </ul>
 
           <i class="bi bi-list mobile-nav-toggle"></i>

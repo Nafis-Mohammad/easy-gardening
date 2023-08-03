@@ -1,0 +1,53 @@
+{% extends 'nav.html' %} {% load static %} {% block content %}
+
+<br>
+<br>
+<br>
+<br>
+
+<div class="row">
+  <li class="filters"><a class="filter_by" href="?sort=price_l2h">Price:--low to high</a></li>
+  <li class="filters"><a class="filter_by" href="?sort=price_h2l">Price:-- high to low</a></li>
+
+  <li class="filters"><a class="filter_by" href="?sort=area_l2h">Area Requirement:--low to high</a></li>
+  <li class="filters"><a class="filter_by" href="?sort=area_h2l">Area Requirement:-- high to low</a></li>
+    <h1>{{maintenance_name.maintenance_name}}</h1>
+    <hr>
+    {% for product in products %}
+    <div class="col-lg-4 mb-4 mr-4">
+      <!-- Added 'mb-4' class for margin bottom and 'mr-4' class for margin right -->
+      <div class="card">
+        <img
+          class="card-img-top"
+          src="{{ product.imageURL }}"
+          alt="{{ product.name }}"
+          height="300"
+        />
+        <div class="card-body">
+          <h6 class="card-title">{{ product.name }}</h6>
+          <p class="card-text">Category: {{ product.category }}</p>
+          <p class="card-text">Area Requirement: {{ product.area_req }} sqft</p>
+          <p class="card-text">Maintenance Requirement: {{ product.maintenance }}</p>
+          <p class="card-text">{{ product.desc|slice:"0:25" }}</p>
+          <hr />
+  
+          <button
+            data-product="{{ product.id }}"
+            data-action="add"
+            class="btn btn-outline-secondary add-btn update-cart"
+          >
+            Add to Cart
+          </button>
+          <a class="btn btn-outline-success" href="#">View</a>
+          <h4 class="card-price">
+            <br>
+            <strong>Tk{{ product.price|floatformat:2 }}</strong>
+          </h4>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+
+{% endblock content %}

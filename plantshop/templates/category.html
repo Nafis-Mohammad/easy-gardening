@@ -4,8 +4,17 @@
 <br>
 <br>
 <br>
+<br>
+
+
+
 
 <div class="row">
+  <li class="filters"><a class="filter_by" href="?sort=price_l2h">Price:--low to high</a></li>
+  <li class="filters"><a class="filter_by" href="?sort=price_h2l">Price:-- high to low</a></li>
+
+  <li class="filters"><a class="filter_by" href="?sort=area_l2h">Area Requirement:--low to high</a></li>
+  <li class="filters"><a class="filter_by" href="?sort=area_h2l">Area Requirement:-- high to low</a></li>
     <h1>{{category_name.category_name}}</h1>
     <hr>
     {% for product in products %}
@@ -16,12 +25,14 @@
           class="card-img-top"
           src="{{ product.imageURL }}"
           alt="{{ product.name }}"
+          height="300"
         />
         <div class="card-body">
           <h6 class="card-title">{{ product.name }}</h6>
           <p class="card-text">Category: {{ product.category }}</p>
-          <p class="card-text">Subcategory: {{ product.subcategory }}</p>
-          <p class="card-text">{{ product.desc|slice:"0:25" }}...</p>
+          <p class="card-text">Area Requirement: {{ product.area_req }} sqft</p>
+          <p class="card-text">Maintenance Requirement: {{ product.maintenance }}</p>
+          <p class="card-text">{{ product.desc|slice:"0:25" }}</p>
           <hr />
   
           <button
@@ -33,6 +44,7 @@
           </button>
           <a class="btn btn-outline-success" href="#">View</a>
           <h4 class="card-price">
+            <br>
             <strong>Tk{{ product.price|floatformat:2 }}</strong>
           </h4>
         </div>

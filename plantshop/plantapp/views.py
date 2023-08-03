@@ -11,7 +11,7 @@ from django.http import JsonResponse
 import json
 import datetime
 from .models import Order, ShippingAddress
-
+from authen.forms import WishForm
 # Create your views here.
 
 
@@ -21,16 +21,45 @@ def home(request):
 
 def collection(request):
     category = Category.objects.all()
-    context = {'category': category}
+    maintenance = Maintenance.objects.all()
+    context = {'category': category, 'maintenance': maintenance}
     print(context)
     return render(request, "collection.html", context)
 
 def collectionview(request, id):
     if(Category.objects.filter(id=id)):
-        products = Product.objects.filter(category=id)
+        
+        sort_by = request.GET.get("sort", "price_l2h") 
+        if sort_by == "price_l2h":
+           products = Product.objects.filter(category=id).order_by("price")
+        elif sort_by == "price_h2l":
+           products = Product.objects.filter(category=id).order_by("-price")
+        elif sort_by == "area_l2h":
+           products = Product.objects.filter(category=id).order_by("area_req")
+        elif sort_by == "area_h2l":
+           products = Product.objects.filter(category=id).order_by("-area_req")
+        
         name = Category.objects.filter(id = id).first()
         context = {'products': products, 'name': name}
         return render(request, "category.html", context)
+    else:
+        messages.warning(request, "No such category found")
+        return redirect("collection")
+    
+def collectionviewmaint(request, id):
+    if(Maintenance.objects.filter(id=id)):
+        sort_by = request.GET.get("sort", "price_l2h") 
+        if sort_by == "price_l2h":
+           products = Product.objects.filter(maintenance=id).order_by("price")
+        elif sort_by == "price_h2l":
+           products = Product.objects.filter(maintenance=id).order_by("-price")
+        elif sort_by == "area_l2h":
+           products = Product.objects.filter(maintenance=id).order_by("area_req")
+        elif sort_by == "area_h2l":
+           products = Product.objects.filter(maintenance=id).order_by("-area_req")
+        name = Maintenance.objects.filter(id = id).first()
+        context = {'products': products, 'name': name}
+        return render(request, "maintenance.html", context)
     else:
         messages.warning(request, "No such category found")
         return redirect("collection")
@@ -201,3 +230,73 @@ def processOrder(request):
         print("User is not logged in..")
 
     return JsonResponse("Payment complete", safe=False)
+
+
+
+# Creating the WishList view to display the list of wishes
+
+
+def WishList(request):
+    # Getting the list of wishes from the database
+    wish = Wish.objects.all()
+
+    # Defining the parameters to be passed to the html page
+    params = {'wishes': wish}
+
+    # Returning the wishes to the html page
+    return render(request, 'wishes.html', params)
+
+
+# Creating the CreateWish view to create a new wish
+def CreateWish(request):
+    print("WHATS UP FUCKERS")
+
+    # Creating an instance of the WishForm
+    form = WishForm(request.POST, request.FILES or None)
+
+    # Checking if the form is valid
+    if form.is_valid():
+
+        # Saving the form and redirecting to the WishList view
+        form.save()
+        return redirect('WishList')
+
+    # Returning the form to the html page
+    return render(request, 'wishform.html', {'form': form})
+
+# Creating the UpdateWish view to update an existing wish
+
+
+def UpdateWish(request, id):
+    # Getting the wish from the database
+    wish = Wish.objects.get(id=id)
+
+    # Creating an instance of the WishForm
+    form = WishForm(request.POST or None, instance=wish)
+
+    # Checking if the form is valid
+    if form.is_valid():
+
+        # Saving the form and redirecting to the WishList view
+        form.save()
+        return redirect('WishList')
+
+    # Returning the form to the html page
+    return render(request, 'wishform.html', {'form': form, 'wish': wish})
+
+# Creating the DeleteWish view to delete an existing wish
+
+
+def DeleteWish(request, id):
+    # Getting the wish from the database
+    wish = Wish.objects.get(id=id)
+
+    # Checking if the request is a POST request
+    if request.method == 'POST':
+
+        # Deleting the wish and redirecting to the WishList view
+        wish.delete()
+        return redirect('WishList')
+
+    # Returning the wish to the html page
+    return render(request, 'DeleteConfirm.html', {'wish': wish})

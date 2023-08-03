@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import datetime
 
 
 # Create your models here.
@@ -23,13 +24,39 @@ class Category(models.Model):
 
     def __str__(self):
         return self.category_name
+    
+    @property
+    def imageURL(self):
+        try:
+            url = self.image.url
+        except:
+            url = ''
+        return url
+    
+
+class Maintenance(models.Model):
+    maintenance_name = models.CharField(max_length=50, null=False, blank=False)
+    maintenance_image = models.ImageField(upload_to='shop/images', default="", null=True, blank=True)       # CHANGE THIS
+    maintenance_description = models.TextField(max_length=500, null=False, blank=False)
+
+    def __str__(self):
+        return self.maintenance_name
+    
+    @property
+    def imageURL(self):
+        try:
+            url = self.image.url
+        except:
+            url = ''
+        return url
 
 
 class Product(models.Model):
     product_id = models.AutoField
     product_name = models.CharField(max_length=50)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=None)
-    subcategory = models.CharField(max_length=50, default="")
+    maintenance = models.ForeignKey(Maintenance, on_delete=models.CASCADE, default=None)
+    area_req = models.IntegerField(default=0)
     price = models.IntegerField(default=0)
     desc = models.CharField(max_length=300)
     pub_date = models.DateField()
@@ -121,3 +148,19 @@ class ShippingAddress(models.Model):
 
     def __str__(self):
         return self.address
+
+
+# Creating the Wish model
+class Wish(models.Model):
+
+    # Defining the fields of the model
+    wishtitle = models.CharField(max_length=250, unique=True)
+    wish = models.CharField(max_length=1000)
+    link = models.CharField(max_length=1000)
+    date = models.DateField(default=datetime.date.today)
+    is_achieved = models.BooleanField(default=False, blank=True)
+    image = models.ImageField(upload_to='images/')
+
+    # Defining the string representation of the model
+    def __str__(self):
+        return self.wishtitle

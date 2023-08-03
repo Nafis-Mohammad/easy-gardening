@@ -1,4 +1,4 @@
-{% load static %}
+{% extends 'nav.html' %} {% load static %} {% block content %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,43 +45,6 @@
 <body>
 
   <!-- ======= Header ======= -->
-  <header id="header" class="fixed-top d-flex align-items-center">
-    <div class="container d-flex align-items-center justify-content-between">
-      <div class="logo">
-        <!-- Uncomment below if you prefer to use an image logo -->
-        <a href=""><img src="{% static 'assets/img/plant/logo.png' %}" alt="" class="img-fluid rounded-circle"></a>
-      </div>
-
-      <nav id="navbar" class="navbar">
-        <ul>
-          <li><a class="nav-link scrollto active" href="/">Home</a></li>
-          
-          
-          
-          <li><a class="nav-link scrollto" href="/contact">Contact</a></li>
-          <li><a class="nav-link scrollto" href="/collection">Store</a></li>
-           <li><a class="nav-link scrollto" href="/checkout">Checkout</a></li>
-            <li>
-              <li>
-                <a class="nav-link scrollto" href="/carts">
-                  <img src="{% static 'assets/img/plant/cart.jpg' %}" style="width: 40px; height: 40px;" alt="Cart">
-                  (<span id="cart">{{cartItems}}</span>)
-                  <span id="popcart" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."></span>
-                </a>
-              </li>
-            </li>
-
-          {% if request.user.is_authenticated %}
-          <li><a class="nav-link scrollto" href="/authen/logout/">Logout</a></li>
-          <li><a class="getstarted scrollto">Welcome {{request.user.username}}</a></li>
-          {% else %}
-          <li><a class="nav-link scrollto" href="/authen/signup/">Signup</a></li>
-          {% endif %}
-        </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav><!-- .navbar -->
-     </div>
-  </header><!-- End Header -->
 
   <!-- ======= Hero Section ======= -->
 
@@ -411,34 +374,6 @@
 
   </main><!-- End #main -->
 
-  <!-- ======= Footer ======= -->
-  <footer id="footer">
-    <div class="container">
-      <div class="row d-flex align-items-center">
-        <div class="col-lg-6 text-lg-left text-center">
-          <div class="copyright">
-            &copy; Copyright <strong>Sabista</strong>. All Rights Reserved
-          </div>
-          <div class="credits">
-            <!-- All the links in the footer should remain intact. -->
-            <!-- You can delete the links only if you purchased the pro version. -->
-            <!-- Licensing information: https://bootstrapmade.com/license/ -->
-            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/vesperr-free-bootstrap-template/ -->
-            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-          </div>
-        </div>
-        <div class="col-lg-6">
-          <nav class="footer-links text-lg-right text-center pt-2 pt-lg-0">
-            <a href="#intro" class="scrollto">Home</a>
-            <a href="#about" class="scrollto">About</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Use</a>
-          </nav>
-        </div>
-      </div>
-    </div>
-  </footer><!-- End Footer -->
-
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
@@ -459,5 +394,5 @@
   
 
 </body>
-
+{% endblock content %}
 </html>
