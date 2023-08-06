@@ -11,9 +11,10 @@ from django.http import JsonResponse
 import json
 import datetime
 from .models import Order, ShippingAddress
-from authen.forms import WishForm
+from .forms import ReviewForm, ShippingAddressForm
 # Create your views here.
 
+# logger = logging.getLogger(__name__)
 
 def home(request):
     return render(request, 'index.html')
@@ -23,7 +24,6 @@ def collection(request):
     category = Category.objects.all()
     maintenance = Maintenance.objects.all()
     context = {'category': category, 'maintenance': maintenance}
-    print(context)
     return render(request, "collection.html", context)
 
 def collectionview(request, id):
@@ -158,18 +158,32 @@ def checkout(request):
         items = []
         order = {'get_cart_total': 0, 'get_cart_items': 0}
         cartItems = order['get_cart_items']
-
+    print("HELLO BRUH",request.method)
     if request.method == 'POST':
+        form = ShippingAddressForm(request.POST)
+        if form.is_valid():
+            address = form.cleaned_data.get('address')
+            city = form.cleaned_data.get('city')
+            country = form.cleaned_data.get('country')
+            shipping_address = ShippingAddress.objects.create(customer=customer, order=order, address=address, city=city,country=country)
+        
         # Process the form data and update the order
         # This is just a placeholder and you should replace it with your actual logic
         order.complete = True
         order.save()
+        shipping_address.save()
         # Redirect to a success page after completing the order
-        return redirect('order-success')
+        return render(request, 'thankyou.html')
+    else:
+        form  = ShippingAddressForm()
 
     context = {'items': items, 'order': order,
-               'cartItems': cartItems, 'shipping': False}
+               'cartItems': cartItems, 'shipping': True, 'form': form}
     return render(request, 'checkout.html', context)
+
+
+def thankyou_view(request):
+    return render(request, 'thankyou.html')
 
 
 def updateItem(request):
@@ -209,21 +223,18 @@ def processOrder(request):
             customer=customer, complete=False)
         total = float(data['form']['total'])
         order.transaction_id = transaction_id
-
-        if total == order.get_cart_total():  # Corrected method call, added parentheses
+        if total == order.get_cart_total:  # Corrected method call, added parentheses
             order.complete = True
         order.save()
 
-        if order.shipping:
+        if order.complete:
             ShippingAddress.objects.create(
                 customer=customer,
                 order=order,
                 address=data['shipping']['address'],
                 city=data['shipping']['city'],  # Corrected 'address' to 'city'
                 # Corrected 'address' to 'state'
-                state=data['shipping']['state'],
-                # Corrected 'address' to 'zipcode'
-                zipcode=data['shipping']['zipcode'],
+                country=data['shipping']['country'],
             )
 
     else:
@@ -233,70 +244,44 @@ def processOrder(request):
 
 
 
-# Creating the WishList view to display the list of wishes
-
-
-def WishList(request):
-    # Getting the list of wishes from the database
-    wish = Wish.objects.all()
-
-    # Defining the parameters to be passed to the html page
-    params = {'wishes': wish}
-
-    # Returning the wishes to the html page
-    return render(request, 'wishes.html', params)
-
-
-# Creating the CreateWish view to create a new wish
-def CreateWish(request):
-    print("WHATS UP FUCKERS")
-
-    # Creating an instance of the WishForm
-    form = WishForm(request.POST, request.FILES or None)
-
-    # Checking if the form is valid
-    if form.is_valid():
-
-        # Saving the form and redirecting to the WishList view
-        form.save()
-        return redirect('WishList')
-
-    # Returning the form to the html page
-    return render(request, 'wishform.html', {'form': form})
-
-# Creating the UpdateWish view to update an existing wish
-
-
-def UpdateWish(request, id):
-    # Getting the wish from the database
-    wish = Wish.objects.get(id=id)
-
-    # Creating an instance of the WishForm
-    form = WishForm(request.POST or None, instance=wish)
-
-    # Checking if the form is valid
-    if form.is_valid():
-
-        # Saving the form and redirecting to the WishList view
-        form.save()
-        return redirect('WishList')
-
-    # Returning the form to the html page
-    return render(request, 'wishform.html', {'form': form, 'wish': wish})
-
-# Creating the DeleteWish view to delete an existing wish
-
-
-def DeleteWish(request, id):
-    # Getting the wish from the database
-    wish = Wish.objects.get(id=id)
-
-    # Checking if the request is a POST request
+def submit_review(request, product_id):
     if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.product_id = product_id
+            review.user = request.user  # Assuming you have user authentication
+            review.save()
 
-        # Deleting the wish and redirecting to the WishList view
-        wish.delete()
-        return redirect('WishList')
+            # Get the product object using product_id
+            product = get_object_or_404(Product, id=product_id)
 
-    # Returning the wish to the html page
-    return render(request, 'DeleteConfirm.html', {'wish': wish})
+            # Redirect to the product's detail page after review submission
+            return redirect('product_detail', product_id=product.id)
+    else:
+        form = ReviewForm()
+
+    return render(request, 'store.html', {'form': form})
+
+
+def product_list(request):
+    products = Product.objects.all()
+    reviews = ReviewRating.objects.filter(
+        product__in=products, status=True)  # Get reviews for these products
+    form = ReviewForm()  # Initialize an empty form for reviews
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user = request.user
+            review.status = True
+            review.save()
+            # Redirect or render as needed
+
+    context = {
+        'products': products,
+        'reviews': reviews,
+        'form': form,
+    }
+    return render(request, 'store.html', context)

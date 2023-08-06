@@ -17,6 +17,7 @@
     <div class="col-lg-4 mb-4 mr-4">
       <!-- Added 'mb-4' class for margin bottom and 'mr-4' class for margin right -->
       <div class="card">
+        <h5 class="card-title"> {{product.product_name}}</h6>
         <img
           class="card-img-top"
           src="{{ product.imageURL }}"
@@ -24,7 +25,6 @@
           height="300"
         />
         <div class="card-body">
-          <h6 class="card-title">{{ product.name }}</h6>
           <p class="card-text">Category: {{ product.category }}</p>
           <p class="card-text">Area Requirement: {{ product.area_req }} sqft</p>
           <p class="card-text">Maintenance Requirement: {{ product.maintenance }}</p>

@@ -5,6 +5,17 @@
 <br />
 <br />
 
+<script type="text/javascript">
+  function submitFormData() {
+    console.log("Payment button clicked");
+
+    var form = document.getElementById("form");
+    // Gather form data as needed...
+
+    // Submit the form
+    form.submit();
+  }
+</script>
 
 <div class="row">
   <div class="col-lg-6">
@@ -55,22 +66,6 @@
             <input
               class="form-control"
               type="text"
-              name="state"
-              placeholder="State.."
-            />
-          </div>
-          <div class="form-field">
-            <input
-              class="form-control"
-              type="text"
-              name="zipcode"
-              placeholder="Zip code.."
-            />
-          </div>
-          <div class="form-field">
-            <input
-              class="form-control"
-              type="text"
               name="country"
               placeholder="Country.."
             />
@@ -81,18 +76,15 @@
         <input
           id="form-button"
           class="btn btn-success btn-block"
-          type="submit"
+          type="button"
           value="Continue"
+          onclick="submitFormData()"
         />
       </form>
     </div>
 
     <br />
-    <div class="box-element hidden" id="payment-info">
-      <small>Paypal Options</small>
-      <div id="paypal-button-container"></div>
-      <!--button id="make-payment">Make payment</button-->
-    </div>
+
   </div>
 
   <div class="col-lg-6">
@@ -125,7 +117,9 @@
     </div>
   </div>
 </div>
-<script src="https://www.paypal.com/sdk/js?client-id=sb&currency=Tk&disable-funding=credit"></script>
+
+
+
 <script>
   //Render the Paypal button into #paypal-button-container
   paypal
@@ -203,8 +197,7 @@
     if (shipping !== "False") {
       shippingInfo.address = form.address.value;
       shippingInfo.city = form.city.value;
-      shippingInfo.state = form.state.value;
-      shippingInfo.zipcode = form.zipcode.value;
+      shippingInfo.country = form.country.value;
       shippingInfo.country = form.country.value;
     }
 
@@ -225,8 +218,7 @@
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
-        alert("Transaction completed");
-        window.location.href = "{% url 'store' %}";
+        window.location.href = "{% url 'thankyou' %}";
       });
   }
 </script>

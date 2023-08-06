@@ -142,25 +142,21 @@ class ShippingAddress(models.Model):
         Order, on_delete=models.SET_NULL, blank=True, null=True)
     address = models.CharField(max_length=200, null=False)
     city = models.CharField(max_length=200, null=False)
-    zipcode = models.CharField(max_length=200, null=False)
-    state = models.CharField(max_length=200, null=False)
+    country = models.CharField(max_length=200, null=False)
     date_ordered = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.address
 
 
-# Creating the Wish model
-class Wish(models.Model):
+class ReviewRating(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    subject = models.CharField(max_length=50, blank=True)
+    review = models.TextField(max_length=500, blank=True)
+    rating = models.FloatField(default=0.0, blank=True)
+    ip = models.CharField(max_length=20, blank=True)
+    status = models.BooleanField(default=True)
 
-    # Defining the fields of the model
-    wishtitle = models.CharField(max_length=250, unique=True)
-    wish = models.CharField(max_length=1000)
-    link = models.CharField(max_length=1000)
-    date = models.DateField(default=datetime.date.today)
-    is_achieved = models.BooleanField(default=False, blank=True)
-    image = models.ImageField(upload_to='images/')
-
-    # Defining the string representation of the model
     def __str__(self):
-        return self.wishtitle
+        return self.subject

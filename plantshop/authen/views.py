@@ -9,8 +9,6 @@ from django.contrib.auth.decorators import login_required
 from .forms import ProfileForm
 from plantapp.models import Customer
 
-from .forms import WishForm
-
 
 def signup(request):
     if request.method == 'POST':
@@ -81,6 +79,5 @@ def profile(request):
 
     return render(request, 'profile.html', {'form': form})
 
-#---------------------------------Views---------------------------------#
 
 
