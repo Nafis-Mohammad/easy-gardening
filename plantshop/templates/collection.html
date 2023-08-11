@@ -1,53 +1,66 @@
 {% extends 'nav.html' %} {% load static %} {% block content %}
 
-<br>
-<br>
-<br>
-<br>
-<br>
+<br />
+<br />
+<br />
+<br />
+<br />
 
 <div class="row">
-    <h1>Browse by Categories</h1>
-    <hr>
-    {% for item in category %}
-    <div class="col-lg-4 mb-4 mr-4">
-      <!-- Added 'mb-4' class for margin bottom and 'mr-4' class for margin right -->
-      <div class="card">
-        <a href = "{% url 'collectionview' item.id %}">
-            <img class="card-img-top" src="{{ item.imageURL }}" alt="{{ item.category_name }}" />
-            <div class="card-body">
-                <h6 class="card-title">Category: {{ item.category_name }}</h6>
-                <p class="card-text">Description: {{ item.category_description }}</p>
-            <hr />
-            </div>
-        </a>
-      </div>
-    </div>
-    {% endfor %}
-</div>
-
-<br>
-<br>
-
-<div class="row">
-  <h1>Browse by Maintenance Requirement</h1>
-  <hr>
-  {% for item in maintenance %}
+  <h1>Browse by Categories</h1>
+  <hr />
+  {% for item in category %}
   <div class="col-lg-4 mb-4 mr-4">
     <!-- Added 'mb-4' class for margin bottom and 'mr-4' class for margin right -->
     <div class="card">
-      <a href = "{% url 'collectionviewmaint' item.id %}">
-          <img class="card-img-top" src="{{ item.imageURL }}" alt="{{ item.maintenance_name }}" />
-          <div class="card-body">
-              <h6 class="card-title">Maintenance Requirement: {{ item.maintenance_name }}</h6>
-              <p class="card-text">Description: {{ item.maintenance_description }}</p>
+      <a href="{% url 'collectionview' item.id %}">
+        <img
+          class="card-img-top"
+          src="{{ item.imageURL }}"
+          alt="{{ item.category_name }}"
+          height="300"
+        />
+        <div class="card-body">
+          <h6 class="card-title">Category: {{ item.category_name }}</h6>
+          <p class="card-text">Description: {{ item.category_description }}</p>
           <hr />
-          </div>
+        </div>
       </a>
     </div>
   </div>
   {% endfor %}
 </div>
 
+<br />
+<br />
+
+<div class="row">
+  <h1>Browse by Maintenance Requirement</h1>
+  <hr />
+  {% for item in maintenance %}
+  <div class="col-lg-4 mb-4 mr-4">
+    <!-- Added 'mb-4' class for margin bottom and 'mr-4' class for margin right -->
+    <div class="card">
+      <a href="{% url 'collectionviewmaint' item.id %}">
+        <img
+          class="card-img-top"
+          src="{{ item.imageURL }}"
+          alt="{{ item.maintenance_name }}"
+          height="300"
+        />
+        <div class="card-body">
+          <h6 class="card-title">
+            Maintenance Requirement: {{ item.maintenance_name }}
+          </h6>
+          <p class="card-text">
+            Description: {{ item.maintenance_description }}
+          </p>
+          <hr />
+        </div>
+      </a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
 
 {% endblock content %}

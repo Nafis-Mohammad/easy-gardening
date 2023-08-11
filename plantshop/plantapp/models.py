@@ -28,7 +28,7 @@ class Category(models.Model):
     @property
     def imageURL(self):
         try:
-            url = self.image.url
+            url = self.category_image.url
         except:
             url = ''
         return url
@@ -45,7 +45,7 @@ class Maintenance(models.Model):
     @property
     def imageURL(self):
         try:
-            url = self.image.url
+            url = self.maintenance_image.url
         except:
             url = ''
         return url
@@ -60,6 +60,7 @@ class Product(models.Model):
     price = models.IntegerField(default=0)
     desc = models.CharField(max_length=300)
     pub_date = models.DateField()
+    quantity_sold = models.IntegerField(default=0, null=True, blank=True)
     digital = models.BooleanField(default=False, null=True, blank=True)
     image = models.ImageField(upload_to='shop/images', default="")
 

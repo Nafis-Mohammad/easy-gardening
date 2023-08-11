@@ -1,7 +1,16 @@
 # from django.shortcuts import redirect
 # from django.shortcuts import render
+from django.shortcuts import redirect, get_object_or_404
+from .forms import ShippingAddressForm
+from .models import ShippingAddress
+from .models import Product, ReviewRating
+from django.shortcuts import render, redirect
+from .forms import ReviewForm
+from django.shortcuts import render
+from .models import Product
 from django.shortcuts import render, redirect
 from math import ceil
+import logging
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.http import HttpResponse
@@ -11,13 +20,19 @@ from django.http import JsonResponse
 import json
 import datetime
 from .models import Order, ShippingAddress
-from .forms import ReviewForm, ShippingAddressForm
+from .forms import ReviewForm
+from django.db.models import Max
 # Create your views here.
 
 # logger = logging.getLogger(__name__)
 
+
 def home(request):
-    return render(request, 'index.html')
+    # getting product with maximum quantity sold
+    maxQuant = Product.objects.aggregate(Max('quantity_sold'))
+    maxQuanProd = Product.objects.filter(quantity_sold=maxQuant['quantity_sold__max'])
+    context = {'maxQuanProd': maxQuanProd}
+    return render(request, 'index.html', context)
 
 
 def collection(request):
@@ -26,38 +41,44 @@ def collection(request):
     context = {'category': category, 'maintenance': maintenance}
     return render(request, "collection.html", context)
 
+
 def collectionview(request, id):
     if(Category.objects.filter(id=id)):
-        
-        sort_by = request.GET.get("sort", "price_l2h") 
+
+        sort_by = request.GET.get("sort", "price_l2h")
         if sort_by == "price_l2h":
-           products = Product.objects.filter(category=id).order_by("price")
+            products = Product.objects.filter(category=id).order_by("price")
         elif sort_by == "price_h2l":
-           products = Product.objects.filter(category=id).order_by("-price")
+            products = Product.objects.filter(category=id).order_by("-price")
         elif sort_by == "area_l2h":
-           products = Product.objects.filter(category=id).order_by("area_req")
+            products = Product.objects.filter(category=id).order_by("area_req")
         elif sort_by == "area_h2l":
-           products = Product.objects.filter(category=id).order_by("-area_req")
-        
-        name = Category.objects.filter(id = id).first()
+            products = Product.objects.filter(
+                category=id).order_by("-area_req")
+
+        name = Category.objects.filter(id=id).first()
         context = {'products': products, 'name': name}
         return render(request, "category.html", context)
     else:
         messages.warning(request, "No such category found")
         return redirect("collection")
-    
+
+
 def collectionviewmaint(request, id):
     if(Maintenance.objects.filter(id=id)):
-        sort_by = request.GET.get("sort", "price_l2h") 
+        sort_by = request.GET.get("sort", "price_l2h")
         if sort_by == "price_l2h":
-           products = Product.objects.filter(maintenance=id).order_by("price")
+            products = Product.objects.filter(maintenance=id).order_by("price")
         elif sort_by == "price_h2l":
-           products = Product.objects.filter(maintenance=id).order_by("-price")
+            products = Product.objects.filter(
+                maintenance=id).order_by("-price")
         elif sort_by == "area_l2h":
-           products = Product.objects.filter(maintenance=id).order_by("area_req")
+            products = Product.objects.filter(
+                maintenance=id).order_by("area_req")
         elif sort_by == "area_h2l":
-           products = Product.objects.filter(maintenance=id).order_by("-area_req")
-        name = Maintenance.objects.filter(id = id).first()
+            products = Product.objects.filter(
+                maintenance=id).order_by("-area_req")
+        name = Maintenance.objects.filter(id=id).first()
         context = {'products': products, 'name': name}
         return render(request, "maintenance.html", context)
     else:
@@ -125,7 +146,7 @@ def store(request):
         'products': products,
         'cartItems': cartItems
     }
-    
+
     return render(request, 'store.html', context)
 
 
@@ -158,15 +179,16 @@ def checkout(request):
         items = []
         order = {'get_cart_total': 0, 'get_cart_items': 0}
         cartItems = order['get_cart_items']
-    print("HELLO BRUH",request.method)
+    print("HELLO BRUH", request.method)
     if request.method == 'POST':
         form = ShippingAddressForm(request.POST)
         if form.is_valid():
             address = form.cleaned_data.get('address')
             city = form.cleaned_data.get('city')
             country = form.cleaned_data.get('country')
-            shipping_address = ShippingAddress.objects.create(customer=customer, order=order, address=address, city=city,country=country)
-        
+            shipping_address = ShippingAddress.objects.create(
+                customer=customer, order=order, address=address, city=city, country=country)
+
         # Process the form data and update the order
         # This is just a placeholder and you should replace it with your actual logic
         order.complete = True
@@ -175,10 +197,11 @@ def checkout(request):
         # Redirect to a success page after completing the order
         return render(request, 'thankyou.html')
     else:
-        form  = ShippingAddressForm()
+        form = ShippingAddressForm()
 
     context = {'items': items, 'order': order,
                'cartItems': cartItems, 'shipping': True, 'form': form}
+    print("REACHED HERE BRUV")
     return render(request, 'checkout.html', context)
 
 
@@ -221,6 +244,14 @@ def processOrder(request):
         customer = request.user.customer
         order, created = Order.objects.get_or_create(
             customer=customer, complete=False)
+        
+        orderItem = OrderItem.objects.filter(order = order)
+        allOrderItem = {'order': orderItem }
+        for i in allOrderItem['order']:
+            prod = Product.objects.get(product_name=i.product)
+            prod.quantity_sold += i.quantity        # increasing the quantity sold
+            prod.save()
+
         total = float(data['form']['total'])
         order.transaction_id = transaction_id
         if total == order.get_cart_total:  # Corrected method call, added parentheses
@@ -241,7 +272,6 @@ def processOrder(request):
         print("User is not logged in..")
 
     return JsonResponse("Payment complete", safe=False)
-
 
 
 def submit_review(request, product_id):
@@ -285,3 +315,14 @@ def product_list(request):
         'form': form,
     }
     return render(request, 'store.html', context)
+
+
+def store(request):
+    products = Product.objects.all()
+    form = ReviewForm()
+    return render(request, 'store.html', {'products': products, 'form': form})
+
+
+def product_detail(request, product_id):
+    product = Product.objects.get(id=product_id)
+    return render(request, 'product_detail.html', {'product': product})

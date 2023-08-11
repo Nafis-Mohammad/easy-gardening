@@ -1,0 +1,24 @@
+{% extends 'nav.html' %} {% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title">Thank You!</h2>
+          <p class="card-text">Thanks for you review.</p>
+          <p class="card-text">
+            We appreciate your cooperation and hope you enjoy your purchase.
+          </p>
+          <p class="card-text">
+            We will try our best to update our products and sort all the
+            problems soon.
+          </p>
+          <a href="{% url 'store' %}" class="btn btn-primary"
+            >Back to Collection</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
