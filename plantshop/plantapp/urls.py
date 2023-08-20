@@ -13,10 +13,6 @@ urlpatterns = [
     path('maintenance/<str:id>', views.collectionviewmaint,
          name="collectionviewmaint"),
     path('collection/<str:id>', views.collectionview, name="collectionview"),
-    #path('WishList', views.WishList, name='WishList'),
-    #path('CreateWish', views.CreateWish, name='CreateWish'),
-    #path('UpdateWish', views.UpdateWish, name='UpdateWish'),
-    #path('delete/<int:id>', views.DeleteWish, name='DeleteWish'),
     path('checkout', views.checkout, name="checkout"),
     path('update_items/', views.updateItem, name="update_items"),
     path('process_order/', views.processOrder, name="process_order"),
@@ -27,6 +23,7 @@ urlpatterns = [
 
     path('products/', views.product_list, name='product_list'),
     path('product/<int:product_id>/', views.product_detail, name='product_detail'),
+    path('search_products', views.product_search, name='search_products')
 
 
 ]

@@ -86,6 +86,17 @@ def collectionviewmaint(request, id):
         return redirect("collection")
 
 
+def product_search(request):
+    query = request.GET.get('q')
+    if query:
+        products = Product.objects.filter(product_name__icontains=query).order_by('-price')
+        context = {'products': products}
+        return render(request, 'search_products.html', context)
+    products = Product.objects.all()
+    context = {'products': products}
+    return render(request, 'search_products.html', context)
+
+
 def product(request):
     current_user = request.user
     print(current_user)

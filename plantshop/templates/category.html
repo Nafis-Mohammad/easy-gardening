@@ -8,11 +8,22 @@
 
 <div class="container my-5">
   <div class="row">
-
-    <p class="filters"><a class="filter_by" href="?sort=price_l2h">Price: low to high</a></p>
-    <p class="filters"><a class="filter_by" href="?sort=price_h2l">Price: high to low</a></p>
-    <p class="filters"><a class="filter_by" href="?sort=area_l2h">Area Requirement: low to high</a></p>
-    <p class="filters"><a class="filter_by" href="?sort=area_h2l">Area Requirement: high to low</a></p>
+    <p class="filters">
+      <a class="filter_by" href="?sort=price_l2h">Price: low to high</a>
+    </p>
+    <p class="filters">
+      <a class="filter_by" href="?sort=price_h2l">Price: high to low</a>
+    </p>
+    <p class="filters">
+      <a class="filter_by" href="?sort=area_l2h"
+        >Area Requirement: low to high</a
+      >
+    </p>
+    <p class="filters">
+      <a class="filter_by" href="?sort=area_h2l"
+        >Area Requirement: high to low</a
+      >
+    </p>
 
     <div class="col-lg-12">
       <h1>{{ category_name.category_name }}</h1>
@@ -45,7 +56,9 @@
           >
             Add to Cart
           </button>
-          <a class="btn btn-outline-success" href="#">View</a>
+          <a class="btn btn-outline-success" href="{{ product.imageURL }}"
+            >View</a
+          >
           <h4 class="card-price">
             <br />
             <strong>Tk{{ product.price|floatformat:2 }}</strong>
