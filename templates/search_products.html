@@ -1,0 +1,147 @@
+{% extends 'nav.html' %} {% load static %} {% block content %}
+<br />
+<br />
+<br />
+<br />
+
+
+<div class="row">
+  <h1> Browse All Available Plants</h1>
+  <form action="{% url 'search_products' %}" method="get">
+    {% csrf_token %}
+    <input type="text" name="q" placeholder="Search Products">
+    <button type="submit">Search</button>
+  </form>
+  <hr>
+  {% for product in products %}
+  <div class="col-lg-4 mb-4 mr-4">
+    <!-- Added 'mb-4' class for margin bottom and 'mr-4' class for margin right -->
+    <div class="card">
+      <img
+        class="card-img-top"
+        src="{{ product.imageURL }}"
+        alt="{{ product.name }}"
+        height="300"
+        width="300"
+      />
+      <div class="card-body">
+        <h6 class="card-title">{{ product.name }}</h6>
+        <p class="card-text">Category: {{ product.category }}</p>
+        <p class="card-text">Subcategory: {{ product.subcategory }}</p>
+        <p class="card-text">{{ product.desc|slice:"0:25" }}...</p>
+        <hr />
+
+        <button
+          data-product="{{ product.id }}"
+          data-action="add"
+          class="btn btn-outline-secondary add-btn update-cart"
+        >
+          Add to Cart
+        </button>
+        <button
+            data-product="{{ product.id }}"
+            data-action="add"
+            class="custom-btn add-btn update-wish"
+          >
+            Add to WishList
+          </button>
+        <a class="btn btn-outline-success" href="{{ product.imageURL }}">View</a>
+        <h4 class="card-price">
+          <strong>Tk{{ product.price|floatformat:2 }}</strong>
+        </h4>
+      </div>
+    </div>
+  </div>
+  <!-- Review Form Section -->
+  <div class="card-body">
+    <header class="section-heading">
+      <h3>Customer Reviews</h3>
+    </header>
+    <form method="post" action="{% url 'submit_review' product.id %}">
+      {% csrf_token %} {{ form.as_p }}
+
+      <h5>Rating 5 to 0.5</h5>
+      <div class="rating-stars">
+        <br />
+        <div class="rate">
+          <input
+            type="radio"
+            name="rating"
+            id="rating10"
+            value="5"
+            required
+          /><label for="rating10" title="5"></label>
+          <input
+            type="radio"
+            name="rating"
+            id="rating9"
+            value="4.5"
+            required
+          /><label for="rating9" title="4.5" class="half"></label>
+          <input
+            type="radio"
+            name="rating"
+            id="rating8"
+            value="4"
+            required
+          /><label for="rating8" title="4"></label>
+          <input
+            type="radio"
+            name="rating"
+            id="rating7"
+            value="3.5"
+            required
+          /><label for="rating7" title="3.5" class="half"></label>
+          <input
+            type="radio"
+            name="rating"
+            id="rating6"
+            value="3"
+            required
+          /><label for="rating6" title="3"></label>
+          <input
+            type="radio"
+            name="rating"
+            id="rating5"
+            value="2.5"
+            required
+          /><label for="rating5" title="2.5" class="half"></label>
+          <input
+            type="radio"
+            name="rating"
+            id="rating4"
+            value="2"
+            required
+          /><label for="rating4" title="2"></label>
+          <input
+            type="radio"
+            name="rating"
+            id="rating3"
+            value="1.5"
+            required
+          /><label for="rating3" title="1.5" class="half"></label>
+          <input
+            type="radio"
+            name="rating"
+            id="rating2"
+            value="1"
+            required
+          /><label for="rating2" title="1"></label>
+          <input
+            type="radio"
+            name="rating"
+            id="rating1"
+            value="0.5"
+            required
+          /><label for="rating1" title="0.5" class="half"></label>
+        </div>
+      </div>
+      <br />
+      <button type="submit" class="btn btn-primary">Submit Review</button>
+      <br />
+    </form>
+  </div>
+</div>
+  {% endfor %}
+</div>
+{% endblock content %}

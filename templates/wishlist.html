@@ -1,0 +1,162 @@
+{% extends 'nav.html' %} {% load static %} {% block content %}
+
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-lg-12">
+      <hr />
+    </div>
+  </div>
+  <div class="row">
+    {% for product in wishlist_items %}
+    <div class="col-lg-4 mb-4 mr-4">
+      <div class="card">
+        <h5 class="card-title">{{ product.wishproduct.product_name }}</h5>
+        <img
+          class="card-img-top"
+          src="{{ product.wishproduct.imageURL }}"
+          alt="{{ product.wishproduct.name }}"
+          height="300"
+        />
+        <div class="card-body">
+          <p class="card-text">Category: {{ product.wishproduct.category }}</p>
+          <p class="card-text">Area Requirement: {{ product.wishproduct.area_req }} sqft</p>
+          <p class="card-text">
+            Maintenance Requirement: {{ product.wishproduct.maintenance }}
+          </p>
+          <p class="card-text">{{ product.wishproduct.desc|slice:"0:25" }}</p>
+          <hr />
+          <button
+            data-product="{{ product.wishproduct.id }}"
+            data-action="add"
+            class="custom-btn add-btn update-cart"
+          >
+            Add to Cart
+          </button>
+          <button
+            data-product="{{ product.wishproduct.id }}"
+            data-action="remove"
+            class="custom-btn add-btn update-wish"
+          >
+            Remove from WishList
+          </button>
+          
+          <a class="btn btn-outline-success" href="{{ product.wishproduct.imageURL }}"
+            >View</a
+          >
+          <h4 class="card-price">
+            <br />
+            <strong>Tk{{ product.wishproduct.price|floatformat:2 }}</strong>
+          </h4>
+        </div>
+      </div>
+      <!-- Review Form Section -->
+      <div class="card-body">
+        <header class="section-heading">
+          <h3>Customer Reviews</h3>
+        </header>
+        <form method="post" action="{% url 'submit_review' product.wishproduct.id %}">
+          {% csrf_token %} {{ form.as_p }}
+
+          <h5>Rating 5 to 0.5</h5>
+          <div class="rating-stars">
+            <br />
+            <div class="rate">
+              <input
+                type="radio"
+                name="rating"
+                id="rating10"
+                value="5"
+                required
+              /><label for="rating10" title="5"></label>
+              <input
+                type="radio"
+                name="rating"
+                id="rating9"
+                value="4.5"
+                required
+              /><label for="rating9" title="4.5" class="half"></label>
+              <input
+                type="radio"
+                name="rating"
+                id="rating8"
+                value="4"
+                required
+              /><label for="rating8" title="4"></label>
+              <input
+                type="radio"
+                name="rating"
+                id="rating7"
+                value="3.5"
+                required
+              /><label for="rating7" title="3.5" class="half"></label>
+              <input
+                type="radio"
+                name="rating"
+                id="rating6"
+                value="3"
+                required
+              /><label for="rating6" title="3"></label>
+              <input
+                type="radio"
+                name="rating"
+                id="rating5"
+                value="2.5"
+                required
+              /><label for="rating5" title="2.5" class="half"></label>
+              <input
+                type="radio"
+                name="rating"
+                id="rating4"
+                value="2"
+                required
+              /><label for="rating4" title="2"></label>
+              <input
+                type="radio"
+                name="rating"
+                id="rating3"
+                value="1.5"
+                required
+              /><label for="rating3" title="1.5" class="half"></label>
+              <input
+                type="radio"
+                name="rating"
+                id="rating2"
+                value="1"
+                required
+              /><label for="rating2" title="1"></label>
+              <input
+                type="radio"
+                name="rating"
+                id="rating1"
+                value="0.5"
+                required
+              /><label for="rating1" title="0.5" class="half"></label>
+            </div>
+          </div>
+          <br />
+
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" class="form-control" name="subject" />
+          </div>
+          <div class="form-group">
+            <label for="review">Review:</label>
+            <textarea name="review" class="form-control" rows="4"></textarea>
+          </div>
+          <br />
+          <button type="submit" class="btn btn-primary">Submit Review</button>
+          <br />
+        </form>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock content %}

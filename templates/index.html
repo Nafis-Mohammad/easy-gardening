@@ -1,0 +1,490 @@
+{% extends 'nav.html' %} {% load static %} {% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Vesperr Bootstrap Template - Index</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+
+  <script src="{% static 'path/to/purecounter.js' %}"></script>
+  <script src="{% static 'path/to/main.js' %}"></script>
+
+
+  <!-- =======================================================
+  * Template Name: Vesperr
+  * Updated: May 30 2023 with Bootstrap v5.3.0
+  * Template URL: https://bootstrapmade.com/vesperr-free-bootstrap-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+  <!-- ======= Hero Section ======= -->
+
+<!-- ======= Hero Section ======= -->
+
+<br>
+<br>
+<br>
+<br>
+<section id="hero" class="d-flex align-items-center">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <h1 data-aos="fade-up">Grow plants with Easy Gardening</h1>
+        <h2 data-aos="fade-up" data-aos-delay="400">We are a here
+           to searve you best quality plants </h2>
+        <div data-aos="fade-up" data-aos-delay="800">
+          <a href="#about" class="btn-get-started scrollto">Get Started</a>
+        </div>
+      </div>
+      <div class="col-md-6 divpr">
+        <img src="{% static 'assets/img/plant/bg2.jpg' %}" class="img-fluid animated" alt="">
+      </div>
+    </div>
+  </div>
+</section><!-- End Hero -->
+
+
+
+
+
+  
+  <!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= Clients Section ======= -->
+    <section id="clients" class="clients clients">
+      <div class="container">
+
+        <div class="row">
+
+          <div class="col-lg-2 col-md-4 col-6">
+            <img src="{% static 'assets/img/clients/client-1.png' %} " class="img-fluid" alt="" data-aos="zoom-in">
+          </div>
+
+          <div class="col-lg-2 col-md-4 col-6">
+            <img src="{% static 'assets/img/clients/client-2.png' %} " class="img-fluid" alt="" data-aos="zoom-in" data-aos-delay="100">
+          </div>
+
+          <div class="col-lg-2 col-md-4 col-6">
+            <img src="{% static 'assets/img/clients/client-3.png' %}" class="img-fluid" alt="" data-aos="zoom-in" data-aos-delay="200">
+          </div>
+
+          <div class="col-lg-2 col-md-4 col-6">
+            <img src="{% static 'assets/img/clients/client-4.png' %}" class="img-fluid" alt="" data-aos="zoom-in" data-aos-delay="300">
+          </div>
+
+          <div class="col-lg-2 col-md-4 col-6">
+            <img src="{% static 'assets/img/clients/client-5.png' %}" class="img-fluid" alt="" data-aos="zoom-in" data-aos-delay="400">
+          </div>
+
+          <div class="col-lg-2 col-md-4 col-6">
+            <img src="{% static 'assets/img/clients/client-6.png' %}" class="img-fluid" alt="" data-aos="zoom-in" data-aos-delay="500">
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Clients Section -->
+
+    <!-- ======= About Us Section ======= -->
+    <section id="about" class="about">
+      <div class="container">
+
+        <div class="section-title" data-aos="fade-up">
+          <h2>Best Selling Products</h2>
+          <div class="container">
+            <div class="row">
+              {% for product in maxQuanProd %}
+              <div class="col-md-3 mt-3">
+                <img
+                  src="{{ product.imageURL }}"
+                  class="card-img-top"
+                  alt="{{ product.name }}"
+                  style="width: 150px; height: 200px"
+                />
+                <div class="card-body">
+                  <p class="card-text">Category: {{ product.category }}</p>
+                  <p class="card-text">Area Requirement: {{ product.area_req }} sqft</p>
+                  <p class="card-text">Maintenance Requirement: {{ product.maintenance }}</p>
+                  <p class="card-text">{{ product.desc|slice:"0:25" }}</p>
+                  <br>
+                  <span id="divpr{{ product.id }}" class="divpr">
+                    <button
+                      data-product="{{ product.id }}"
+                      data-action="add"
+                      class="custom-btn add-btn update-cart"
+                    >
+                      Add to Cart
+                    </button>
+                    <button
+                      data-product="{{ product.id }}"
+                      data-action="add"
+                      class="custom-btn add-btn update-wish"
+                    >
+                      Add to WishList
+                    </button>
+                  </span>
+                  <a href="{{product.imageURL }}">
+                    <button type="submit" class="custom-btn">View</button>
+                  </a>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          
+        </div>
+
+    <!-- ======= Slide show Section start ======= -->
+  <!--{% for product, range, slide in allProd %} -->
+
+  
+    <!--<h3 class="my-3 text-success bg-light">{{ product.0.prod_category }}</h3>-->
+  
+
+
+    <div class="container">
+      <div class="row">
+        {% for product in maxQuanProd %}
+        <div class="col-md-3 mt-3">
+          <img
+            src="{{ product.imageURL }}"
+            class="card-img-top"
+            alt="{{ product.name }}"
+            style="width: 150px; height: 200px"
+          />
+          <div class="card-body">
+            <h5 class="card-title mt-2" id="namepr{{ product.id }}">
+              {{ product.product_name }}
+            </h5>
+            <p class="card-text">{{ product.desc|slice:"0:25" }}...</p>
+            <h6 class="card-title mt-3">
+              Price: <span id="pricepr{{ product.id }}">{{ product.price }}</span>
+            </h6>
+            <span id="divpr{{ product.id }}" class="divpr">
+              <button id="pr{{ product.id }}" class="custom-btn">Add to Cart</button>
+            </span>
+            <a href="product.imageURL }}">
+              <button type="submit" class="custom-btn">View</button>
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    </div>
+    <!--{% endfor %}--> 
+
+ <!-- ======= F.A.Q Section ======= -->
+ <section id="about" class="about">
+  <div class="container">
+
+    <div class="section-title" data-aos="fade-up">
+      <h2>About Us</h2>
+    </div>
+
+        <div class="row content">
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="150">
+            <p>
+              Your Trusted online plant shop
+            </p>
+            <ul>
+              <li><i class="ri-check-double-line"></i> Easy to order and fast delivery service</li>
+              <li><i class="ri-check-double-line"></i> Several payment options</li>
+              <li><i class="ri-check-double-line"></i> Easy return within 3 days</li>
+            </ul>
+          </div>
+          <div class="col-lg-6 pt-4 pt-lg-0" data-aos="fade-up" data-aos-delay="300">
+            <p>
+              Are you thinking to start gardening?
+              <br>
+              Here comes Bangladesh's no 1 online plant shop.We serve you best quality plant without any hassle. Easy to buy , easy to grow. 
+            </p>
+            <a href="#" class="btn-learn-more">Learn More</a>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End About Us Section -->
+
+    
+    
+{% comment "" %}
+    <!-- ======= Pricing Section ======= -->
+    <section id="pricing" class="pricing">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Pricing</h2>
+          <p>Sit sint consectetur velit nemo qui impedit suscipit alias ea</p>
+        </div>
+
+        <div class="row">
+
+          <div class="col-lg-4 col-md-6">
+            <div class="box" data-aos="zoom-in-right" data-aos-delay="200">
+              <h3>Free</h3>
+              <h4><sup>$</sup>0<span> / month</span></h4>
+              <ul>
+                <li>Aida dere</li>
+                <li>Nec feugiat nisl</li>
+                <li>Nulla at volutpat dola</li>
+                <li class="na">Pharetra massa</li>
+                <li class="na">Massa ultricies mi</li>
+              </ul>
+              <div class="btn-wrap">
+                <a href="#" class="btn-buy">Buy Now</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mt-4 mt-md-0">
+            <div class="box recommended" data-aos="zoom-in" data-aos-delay="100">
+              <h3>Business</h3>
+              <h4><sup>$</sup>19<span> / month</span></h4>
+              <ul>
+                <li>Aida dere</li>
+                <li>Nec feugiat nisl</li>
+                <li>Nulla at volutpat dola</li>
+                <li>Pharetra massa</li>
+                <li class="na">Massa ultricies mi</li>
+              </ul>
+              <div class="btn-wrap">
+                <a href="#" class="btn-buy">Buy Now</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mt-4 mt-lg-0">
+            <div class="box" data-aos="zoom-in-left" data-aos-delay="200">
+              <h3>Developer</h3>
+              <h4><sup>$</sup>29<span> / month</span></h4>
+              <ul>
+                <li>Aida dere</li>
+                <li>Nec feugiat nisl</li>
+                <li>Nulla at volutpat dola</li>
+                <li>Pharetra massa</li>
+                <li>Massa ultricies mi</li>
+              </ul>
+              <div class="btn-wrap">
+                <a href="#" class="btn-buy">Buy Now</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Pricing Section -->
+{% endcomment %}
+    <!-- ======= F.A.Q Section ======= -->
+    <section id="faq" class="faq">
+      <div class="container">
+
+        <div class="section-title" data-aos="fade-up">
+          <h2>Frequently Asked Questions</h2>
+        </div>
+
+        <div class="row faq-item d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+          <div class="col-lg-5">
+            <i class="ri-question-line"></i>
+            <h4>What is the best time of year to start a garden?</h4>
+          </div>
+          <div class="col-lg-7">
+            <p>
+              The best time to start a garden depends on the climate and the type of plants you want to grow. In general, spring is an ideal time for most regions as the soil starts to warm up and plants begin to grow actively.
+          </div>
+        </div><!-- End F.A.Q Item-->
+
+        <div class="row faq-item d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+          <div class="col-lg-5">
+            <i class="ri-question-line"></i>
+            <h4>How much sunlight do most plants need to thrive?</h4>
+          </div>
+          <div class="col-lg-7">
+            <p>
+              Most plants require at least 6-8 hours of sunlight per day to thrive. However, some plants, such as shade-loving varieties, can tolerate less sunlight.
+            </p>
+          </div>
+        </div><!-- End F.A.Q Item-->
+
+        <div class="row faq-item d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
+          <div class="col-lg-5">
+            <i class="ri-question-line"></i>
+            <h4>How often should I water my garden?</h4>
+          </div>
+          <div class="col-lg-7">
+            <p>
+              The watering frequency depends on various factors like climate, soil type, and the specific plants you are growing. Generally, it's best to water deeply and less frequently to encourage deep root growth.
+            </p>
+          </div>
+        </div><!-- End F.A.Q Item-->
+
+        <div class="row faq-item d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="400">
+          <div class="col-lg-5">
+            <i class="ri-question-line"></i>
+            <h4>How do I prevent pests and diseases in my garden?</h4>
+          </div>
+          <div class="col-lg-7">
+            <p>
+              To prevent pests and diseases, practice good garden hygiene, such as removing dead or diseased plant material promptly. You can also use natural remedies like neem oil or introduce beneficial insects to control pests.
+            </p>
+          </div>
+        </div><!-- End F.A.Q Item-->
+
+        <div class="row faq-item d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="500">
+          <div class="col-lg-5">
+            <i class="ri-question-line"></i>
+            <h4>What are some easy-to-grow vegetables for beginners?</h4>
+          </div>
+          <div class="col-lg-7">
+            <p>
+              Some easy-to-grow vegetables for beginners include tomatoes, lettuce, radishes, and beans. These plants are relatively low-maintenance and suitable for novice gardeners.
+            </p>
+          </div>
+        </div>
+        
+        <div class="row faq-item d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="500">
+          <div class="col-lg-5">
+            <i class="ri-question-line"></i>
+            <h4>How do I improve the soil quality in my garden?</h4>
+          </div>
+          <div class="col-lg-7">
+            <p>
+              You can improve soil quality by adding organic matter like compost or well-rotted manure. This enriches the soil with nutrients and improves its structure, leading to better plant growth.
+            </p>
+          </div>
+        </div>
+        <div class="row faq-item d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="500">
+          <div class="col-lg-5">
+            <i class="ri-question-line"></i>
+            <h4>Can I start a garden if I have limited space?</h4>
+          </div>
+          <div class="col-lg-7">
+            <p>
+              Absolutely! You can start a garden in small spaces like balconies, patios, or even windowsills. Consider using containers or vertical gardening techniques to maximize space.
+            </p>
+          </div>
+        </div>
+        
+        
+        
+        <!-- End F.A.Q Item-->
+
+      </div>
+    </section><!-- End F.A.Q Section -->
+
+ <!-- ======= Contact Section ======= -->
+<section id="contact" class="contact">
+  <div class="container">
+
+    <div class="section-title" data-aos="fade-up">
+      <h2>Contact Us</h2>
+    </div>
+
+    <div class="row">
+
+      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+        <div class="contact-about">
+          <h3>Easy Gardening </h3>
+          <p>Your trust is our strength</p>
+          <div class="social-links">
+            <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 mt-4 mt-md-0" data-aos="fade-up" data-aos-delay="200">
+        <div class="info">
+          <div>
+            <i class="ri-map-pin-line"></i>
+            <p>Brac University<br>Mohakhali,Dhaka</p>
+          </div>
+
+          <div>
+            <i class="ri-mail-send-line"></i>
+            <p>sabista.ifraj@g.bracu.ac.bd nafis.mohammad@g.bracu.ac.bd mahabubul.alam@g.bracu.ac.bd</p>
+          
+            
+          </div>
+
+          <div>
+            <i class="ri-phone-line"></i>
+            <p>017197837687</p>
+          </div>
+        </div>
+      </div>
+
+      <br>
+      <br>
+      <br>
+      <br>
+    </div>
+      <div class="row">
+
+        
+          <img src="{% static 'assets/img/plant/pay.png' %} " class="img-fluid" alt="" data-aos="zoom-in">
+        </div>
+      
+
+    
+
+ 
+</section><!-- End Contact Section -->
+
+
+  </main><!-- End #main -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets/vendor/purecounter/purecounter_vanilla.js' %}"></script>
+  <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets/js/main.js' %}"></script>
+
+
+  
+
+  
+
+</body>
+{% endblock content %}
+</html>
